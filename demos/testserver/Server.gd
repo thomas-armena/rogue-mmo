@@ -6,12 +6,15 @@ signal right_key_pressed(player_id)
 signal right_key_released(player_id)
 signal left_key_pressed(player_id)
 signal left_key_released(player_id)
+signal jump_key_pressed(player_id)
+signal jump_key_released(player_id)
 
 # Client signals
 signal update(world_state)
 
 var is_pressing_right = false
 var is_pressing_left = false
+var is_pressing_jump = false
 
 var network = NetworkedMultiplayerENet.new()
 var ip = "localhost"
@@ -73,6 +76,12 @@ remote func left_start(player_id):
 remote func left_end(player_id):
 	emit_signal("left_key_released", player_id)
 	
+remote func jump_start(player_id):
+	emit_signal("jump_key_pressed", player_id)
+	
+remote func jump_end(player_id):
+	emit_signal("jump_key_released", player_id)
+	
 #### CLIENT
 
 func init_client():
@@ -116,6 +125,17 @@ func send_inputs():
 			print("sending left release")
 			rpc_id(1, "left_end", player_id)
 		is_pressing_left = false
+		
+	if Input.is_action_pressed("ui_up"):
+		if !is_pressing_jump:
+			print("sending jump press")
+			rpc_id(1, "jump_start", player_id)
+		is_pressing_jump = true
+	else:
+		if is_pressing_jump:
+			print("sending jump release")
+			rpc_id(1, "jump_end", player_id)
+		is_pressing_jump = false
 		
 remote func world_updated(new_world_state):
 	if is_client:

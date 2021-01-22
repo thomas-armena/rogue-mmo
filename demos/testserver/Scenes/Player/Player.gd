@@ -8,6 +8,7 @@ var screen_size
 var velocity = Vector2.ZERO
 var is_pressing_right = false
 var is_pressing_left = false
+var is_pressing_jump = false
 
 var player_id
 
@@ -18,7 +19,10 @@ func set_player_id(id):
 	set_name(str(id))
 
 func _ready():
-	screen_size = get_viewport_rect().size
+	if Server.is_server:
+		subscribe_to_server()
+	else:
+		subscribe_to_client()
 
 func get_input():
 	velocity.x = 0
@@ -40,15 +44,16 @@ func decide_animation():
 		sprite.play("idle")
 
 func _physics_process(delta):
-	get_input()
-	velocity.y += gravity * delta
-	velocity = move_and_slide(velocity, Vector2.UP)
-	#
-	#if Input.is_action_just_pressed("ui_up"):
-	#	if is_on_floor():
-	#		velocity.y = jump_speed
+	if Server.is_server:
+		get_input()
+		velocity.y += gravity * delta
+		velocity = move_and_slide(velocity, Vector2.UP)
+		
+		if is_pressing_jump:
+			if is_on_floor():
+				velocity.y = jump_speed
 
-	decide_animation()
+		decide_animation()
 
 
 func _process(delta):
@@ -60,6 +65,8 @@ func subscribe_to_server():
 	Server.connect("right_key_released", self, "_on_right_key_released")
 	Server.connect("left_key_pressed", self, "_on_left_key_pressed")
 	Server.connect("left_key_released", self, "_on_left_key_released")
+	Server.connect("jump_key_pressed", self, "_on_jump_key_pressed")
+	Server.connect("jump_key_released", self, "_on_jump_key_released")
 	
 func subscribe_to_client():
 	Server.connect("update", self, "_on_update")
@@ -88,3 +95,13 @@ func _on_left_key_released(id):
 	print("lr")
 	if id == player_id: 
 		is_pressing_left = false
+		
+func _on_jump_key_pressed(id):
+	print("jp")
+	if id == player_id: 
+		is_pressing_jump = true
+		
+func _on_jump_key_released(id):
+	print("jp")
+	if id == player_id: 
+		is_pressing_jump = false
