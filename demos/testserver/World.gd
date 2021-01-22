@@ -14,7 +14,7 @@ func subscribe_to_server():
 func _on_player_entered(player_id):
 	create_player(player_id)
 	var newPlayer = get_node(str(player_id))
-	Server.update_player_position(player_id, newPlayer.position)
+	Server.update_player_position(player_id, newPlayer.position, "idle", false)
 	print("created player")
 	
 func create_player(player_id):

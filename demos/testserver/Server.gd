@@ -46,7 +46,9 @@ func _peer_connected(player_id):
 	print(str(player_id) + " connected.")
 	var newPlayer = {
 		player_id = player_id,
-		position = Position2D.new()
+		position = Position2D.new(),
+		animation = "idle",
+		fliph = false,
 	}
 	world_state.players[player_id] = newPlayer
 	
@@ -54,8 +56,10 @@ func _peer_connected(player_id):
 	emit_signal("player_entered", player_id)
 	update_clients()
 	
-func update_player_position(player_id, position):
+func update_player_position(player_id, position, animation, fliph):
 	world_state.players[player_id].position = position
+	world_state.players[player_id].animation = animation
+	world_state.players[player_id].fliph = fliph
 	update_clients()
 	
 func update_clients():
