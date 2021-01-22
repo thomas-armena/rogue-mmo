@@ -18,7 +18,7 @@ func _on_player_entered(player_id):
 	print("created player")
 	
 func create_player(player_id):
-	var Player = preload("res://Player.tscn")
+	var Player = preload("res://Scenes/Player/Player.tscn")
 	var player = Player.instance()
 	player.set_player_id(player_id)
 	add_child(player)

@@ -14,7 +14,7 @@ var is_pressing_right = false
 var is_pressing_left = false
 
 var network = NetworkedMultiplayerENet.new()
-var ip = "127.0.0.1"
+var ip = "localhost"
 var port = 4000
 var max_players = 10
 
