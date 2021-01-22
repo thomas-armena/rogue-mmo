@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://MainMenu.gd" type="Script" id=1]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource( 1 )
+
+[node name="ServerButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -28.1879
+margin_top = 257.023
+margin_right = 56.8121
+margin_bottom = 277.023
+text = "Start Server"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartClient" type="Button" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -29.0732
+margin_top = -272.849
+margin_right = 52.9268
+margin_bottom = -252.849
+text = "Start Client"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="ServerButton" to="." method="_on_ServerButton_pressed"]
+[connection signal="pressed" from="StartClient" to="." method="_on_StartClient_pressed"]
