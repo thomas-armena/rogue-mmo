@@ -110,34 +110,28 @@ func send_inputs():
 	var player_id = get_tree().get_network_unique_id()
 	if Input.is_action_pressed("ui_right"):
 		if !is_pressing_right:
-			print("sending right press")
 			rpc_id(1, "right_start", player_id)
 		is_pressing_right = true
 	else:
 		if is_pressing_right:
-			print("sending right release")
 			rpc_id(1, "right_end", player_id)
 		is_pressing_right = false
 		
 	if Input.is_action_pressed("ui_left"):
 		if !is_pressing_left:
-			print("sending left press")
 			rpc_id(1, "left_start", player_id)
 		is_pressing_left = true
 	else:
 		if is_pressing_left:
-			print("sending left release")
 			rpc_id(1, "left_end", player_id)
 		is_pressing_left = false
 		
 	if Input.is_action_pressed("ui_up"):
 		if !is_pressing_jump:
-			print("sending jump press")
 			rpc_id(1, "jump_start", player_id)
 		is_pressing_jump = true
 	else:
 		if is_pressing_jump:
-			print("sending jump release")
 			rpc_id(1, "jump_end", player_id)
 		is_pressing_jump = false
 		
